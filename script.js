@@ -4,12 +4,12 @@ let myLibrary = [
     {title: "The Stars", author: "B.R Smith", pages: 170, read: true},
 ];
 
-
 // define variables
 const addBookBttn = document.getElementById('addBookBtn');
 const bookForm = document.getElementById('addBookForm');
 const addBookModal = document.getElementById('addBookModal');
 const overlay = document.getElementById('overlay');
+const removeBtn = document.getElementById('removeBtn');
 
 // constructor
 function book(title, author, pages, read) {
@@ -19,11 +19,45 @@ function book(title, author, pages, read) {
     this.read = read;
 };
 
+function updateReadStatus(title) {
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].title === title) {
+            myLibrary[i].read = !myLibrary[i].read
+        }
+    }
+}
+
+// gets book's index from array by title
+function getArrayIndex(title){
+    // put code to remove that title from myLibray
+    let index = -1
+    for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].title === title) {
+            index=i
+        }
+    }
+    return index
+}
+
+// removeBook function
+const removeBook = (e) => {
+    const title = e.target.parentNode.parentNode.firstChild.innerHTML.replaceAll(
+        '"',
+        ''
+      )
+    
+    index=getArrayIndex(title)
+    myLibrary.splice(index,1)
+
+    saveLocal()
+    updateBooksGrid()
+
+}
+
 // function that creates a book card for each book in the array, each array object gets its own div
 function createBookCard() {
     let bookGrid = document.getElementById('bookSlot');
     for (let book of myLibrary) {
-        console.log(book.title)
         const bookCard = document.createElement('div');
         const title = document.createElement('p');
         const author = document.createElement('p');
@@ -37,7 +71,7 @@ function createBookCard() {
         pages.textContent = `${book.pages} pages`;
         removeBtn.textContent = 'Remove';
 
-        if (book.isRead) {
+        if (book.read) {
             readBtn.textContent = 'Read'
             readBtn.classList.add('btn-light-green')
           } else {
@@ -57,8 +91,9 @@ function createBookCard() {
         buttonGroup.classList.add('button-group');
         readBtn.classList.add('btn')
         removeBtn.classList.add('btn')
-        // readBtn.onclick = toggleRead
-        // removeBtn.onclick = removeBook
+        removeBtn.classList.add('remove-btn')
+        readBtn.onclick = toggleRead
+        removeBtn.onclick = removeBook
     }
 }
 
@@ -79,7 +114,7 @@ const closeAddBookModal = () => {
 // updates the bookgrid
 const updateBooksGrid = () => {
     resetBooksGrid()
-    createBookCard(book)    
+    createBookCard()    
 }
 
 // resets the bookGrid
@@ -106,14 +141,24 @@ const addBook = (e) => {
     const author = document.getElementById('author').value
     const pages = document.getElementById('pages').value
     const isRead= document.getElementById('isRead').checked
-    console.log(title)
+    console.log(title, isRead)
     myLibrary.push(new book(title, author, pages, isRead))
-    console.log(myLibrary)
     saveLocal()
     closeAddBookModal()
 
     updateBooksGrid()
 }
+
+// Changes Read status
+const toggleRead = (e) => {
+    const title = e.target.parentNode.parentNode.firstChild.innerHTML.replaceAll(
+      '"',
+      ''
+    )
+    updateReadStatus(title) 
+    saveLocal()
+    updateBooksGrid()
+  }
 
 // Event fucntions
 addBookForm.onsubmit = addBook
