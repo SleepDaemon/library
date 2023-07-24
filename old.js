@@ -1,6 +1,5 @@
 // THIS IS THE OLD VERSION OF THE LIBRARY, I KEPT IT HERE FOR REFERENCE
 
-
 // default library
 let myLibrary = [
     {title: "The rate Hobbit", author: "J.R.R. Tolkien", pages: 295, read: false},

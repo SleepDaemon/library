@@ -1,4 +1,4 @@
-// THIS IS THE NEW VERSION OF THE LIBRARY, CHANGE THE CODE TO BE MORE OOP (Object Oriented Programming)
+// THIS IS THE NEW VERSION OF THE LIBRARY, CHANGE THE CODE TO BE OO (Object Oriented)
 
 // Book class
 class Book {
