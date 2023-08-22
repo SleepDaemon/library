@@ -2,13 +2,14 @@
 
 // Book class
 class Book {
-    constructor(title, author, pages, read) {
-      this.title = title;
-      this.author = author;
-      this.pages = pages;
-      this.read = read;
-    }
+  constructor(title, author, pages, read, image = '') {
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.read = read;
+    this.image = image;
   }
+}
   
   // Library class
   class Library {
@@ -66,20 +67,26 @@ class Book {
         const buttonGroup = document.createElement('div');
         const readBtn = document.createElement('button');
         const removeBtn = document.createElement('button');
-  
+        const bookImage = document.createElement('img'); // New element for the book image
+
         title.textContent = `"${book.title}"`;
         author.textContent = book.author;
         pages.textContent = `${book.pages} pages`;
         removeBtn.textContent = 'Remove';
-  
+
         if (book.read) {
-          readBtn.textContent = 'Read';
-          readBtn.classList.add('btn-light-green');
+            readBtn.textContent = 'Read';
+            readBtn.classList.add('btn-light-green');
         } else {
-          readBtn.textContent = 'Not read';
-          readBtn.classList.add('btn-light-red');
+            readBtn.textContent = 'Not read';
+            readBtn.classList.add('btn-light-red');
         }
-  
+
+        bookImage.src = book.image || 'default-image-url.jpg'; // Use the image data URL if available, otherwise a default image URL
+        bookImage.alt = 'Book Cover';
+        bookImage.classList.add('book-image'); // Add CSS class for styling
+
+        bookCard.appendChild(bookImage); // Append the book image
         bookCard.appendChild(title);
         bookCard.appendChild(author);
         bookCard.appendChild(pages);
@@ -87,7 +94,7 @@ class Book {
         buttonGroup.appendChild(removeBtn);
         bookCard.appendChild(buttonGroup);
         bookGrid.appendChild(bookCard);
-  
+
         bookCard.classList.add('book-card');
         buttonGroup.classList.add('button-group');
         readBtn.classList.add('btn');
@@ -95,8 +102,8 @@ class Book {
         removeBtn.classList.add('remove-btn');
         readBtn.onclick = this.toggleRead.bind(this);
         removeBtn.onclick = this.removeBook.bind(this);
-      }
     }
+  }
   
     showForm() {
       console.log('BTN');
@@ -130,36 +137,49 @@ class Book {
   
     addBook(e) {
       e.preventDefault();
-  
+
       const title = document.getElementById('title').value;
       const author = document.getElementById('author').value;
       const pages = document.getElementById('pages').value;
       const isRead = document.getElementById('isRead').checked;
-      console.log(title, isRead);
-      this.books.push(new Book(title, author, pages, isRead));
-      this.saveLocal();
-      this.closeAddBookModal();
-  
-      this.updateBooksGrid();
-    }
-  
-    toggleRead(e) {
+      const imageInput = document.getElementById('image');
+      const imageFile = imageInput.files[0]; // Get the selected image file
+
+      if (imageFile) {
+          const reader = new FileReader();
+          reader.onload = () => {
+              const imageDataUrl = reader.result;
+              this.books.push(new Book(title, author, pages, isRead, imageDataUrl)); // Pass the image data URL to the Book constructor
+              this.saveLocal();
+              this.closeAddBookModal();
+              this.updateBooksGrid();
+          };
+          reader.readAsDataURL(imageFile); // Read the selected image file as a data URL
+      } else {
+          this.books.push(new Book(title, author, pages, isRead));
+          this.saveLocal();
+          this.closeAddBookModal();
+          this.updateBooksGrid();
+      }
+  }
+
+  toggleRead(e) {
       const title = e.target.parentNode.parentNode.firstChild.innerHTML.replaceAll(
-        '"',
-        ''
+          '"',
+          ''
       );
       this.updateReadStatus(title);
       this.saveLocal();
       this.updateBooksGrid();
-    }
-  
-    initialize() {
+  }
+
+  initialize() {
       localStorage.clear();
       this.createBookCard();
       this.addBookForm.onsubmit = this.addBook.bind(this);
       this.addBookBtn.onclick = this.showForm.bind(this);
-    }
   }
-  
-  const library = new Library();
-  window.onload = library.initialize.bind(library);  
+}
+
+const library = new Library();
+window.onload = library.initialize.bind(library);  

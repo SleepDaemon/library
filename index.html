@@ -39,7 +39,7 @@
           <h3>Add new book</h3>
           <input
             class="input"
-            type="text"
+            type="text"same
             id="title"
             placeholder="Title"
             required
@@ -62,6 +62,9 @@
             required
             max="10000"
           />
+          <label class="input-file-label" for="image">
+            <input type="file" id="image" accept="image/*" />
+        </label>
           <div class="is-read">
             <label for="is-read">Have you read it?</label>
             <input class="checkbox" type="checkbox" id="isRead" />

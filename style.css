@@ -1,7 +1,7 @@
 :root {
-    --white: #fffbfb;
-    --grey: #f0eef1;
-    --black: #050505;
+    --grey: #393939;
+    --dark-grey: #282828;
+    --light-grey: #a5a5a5;
     --red: #ff7070;
     --light-green: #9fff9c;
     --light-red: #ff9c9c;
@@ -34,8 +34,8 @@ html {
 body {
     font-family: 'Poppins', sans-serif;
     font-size: 20px;
-    background-color: var(--grey);
-    color: var(--black);
+    background-color: var(--dark-grey);
+    color: var(--light-grey);
     margin-bottom: 100px;
     word-wrap: break-word;
 }
@@ -68,6 +68,8 @@ input[type='number'] {
     padding: var(--spacing-sm) var(--spacing-md);
     border-radius: var(--border-radius);
     transition: filter 0.15s ease-in-out;
+    background-color: var(--light-grey);
+    color: var(--dark-grey);
 }
   
 .btn:hover {
@@ -90,7 +92,7 @@ input[type='number'] {
 /* HEADER */
 
 .header {
-    background-color: var(--white);
+    background-color: var(--grey);
     box-shadow: var(--shadow);
 }
   
@@ -121,17 +123,27 @@ input[type='number'] {
     gap: var(--spacing-lg);
     padding: var(--spacing-lg);
     border-radius: var(--border-radius);
-    background-color: var(--white);
+    background-color: var(--grey);
     box-shadow: var(--shadow);
     line-height: 1.2;
+}
+
+.book-card p {
+  color: white;
 }
 
 .button-group {
     display: flex;
     flex-direction: column;
     gap: var(--spacing-lg);
+    margin-top: 10px;
 }
 
+.book-image {
+  width: 100px;
+  height: auto;
+  margin-top: 10px;
+}
 
 /* FOOTER */
 
@@ -149,7 +161,7 @@ input[type='number'] {
   
   .fa-github {
     font-size: 24px;
-    color: var(--black);
+    color: var(--light-grey);
     transition: transform 0.3s ease-in-out;
   }
   
@@ -167,7 +179,7 @@ input[type='number'] {
     width: 300px;
     padding: var(--spacing-lg);
     border-radius: var(--border-radius);
-    background-color: var(--grey);
+    background-color: var(--dark-grey);
     text-align: center;
     transform: translate(-50%, -50%) scale(0);
     transition: 0.2s ease-in-out;
@@ -229,3 +241,36 @@ input[type='number'] {
   .overlay.active {
     display: block;
   }
+
+  /* Additional CSS for the "Choose File" input */
+.input-file-label {
+  display: inline-block;
+  padding: 10px;
+  border: 2px solid var(--light-grey);
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+  position: relative;
+}
+
+.input-file-label:hover {
+  background-color: var(--dark-grey);
+}
+
+.input-file-label input[type='file'] {
+  display: none;
+}
+
+.input-file-label::after {
+  content: 'Choose File';
+  display: inline-block;
+  padding: 5px 10px;
+  background-color: var(--light-grey);
+  color: var(--grey);
+  border-radius: var(--border-radius);
+  transition: background-color 0.3s ease-in-out;
+}
+
+.input-file-label:hover::after {
+  background-color: var(--light-green);
+}
